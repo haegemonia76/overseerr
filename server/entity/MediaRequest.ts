@@ -1005,33 +1005,13 @@ export class MediaRequest {
           throw new Error('TVDB ID not found');
         }
 
-        let seriesType: SonarrSeries['seriesType'] = 'standard';
+        const seriesType: SonarrSeries['seriesType'] =
+          sonarrSettings.seriesType;
 
-        // Change series type to anime if the anime keyword is present on tmdb
-        if (this.isAnime) {
-          seriesType = sonarrSettings.animeSeriesType ?? 'anime';
-        }
-
-        let rootFolder =
-          seriesType === 'anime' && sonarrSettings.activeAnimeDirectory
-            ? sonarrSettings.activeAnimeDirectory
-            : sonarrSettings.activeDirectory;
-        let qualityProfile =
-          seriesType === 'anime' && sonarrSettings.activeAnimeProfileId
-            ? sonarrSettings.activeAnimeProfileId
-            : sonarrSettings.activeProfileId;
-        let languageProfile =
-          seriesType === 'anime' && sonarrSettings.activeAnimeLanguageProfileId
-            ? sonarrSettings.activeAnimeLanguageProfileId
-            : sonarrSettings.activeLanguageProfileId;
-        let tags =
-          seriesType === 'anime'
-            ? sonarrSettings.animeTags
-              ? [...sonarrSettings.animeTags]
-              : []
-            : sonarrSettings.tags
-            ? [...sonarrSettings.tags]
-            : [];
+        let rootFolder = sonarrSettings.activeDirectory;
+        let qualityProfile = sonarrSettings.activeProfileId;
+        let languageProfile = sonarrSettings.activeLanguageProfileId;
+        let tags = sonarrSettings.tags ? [...sonarrSettings.tags] : [];
 
         if (
           this.rootFolder &&

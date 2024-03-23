@@ -427,19 +427,6 @@ components:
         activeLanguageProfileId:
           type: number
           example: 1
-        activeAnimeProfileId:
-          type: number
-          nullable: true
-        activeAnimeLanguageProfileId:
-          type: number
-          nullable: true
-        activeAnimeProfileName:
-          type: string
-          example: 720p/1080p
-          nullable: true
-        activeAnimeDirectory:
-          type: string
-          nullable: true
         is4k:
           type: boolean
           example: false

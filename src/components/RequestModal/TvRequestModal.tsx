@@ -8,7 +8,10 @@ import SearchByNameModal from '@app/components/RequestModal/SearchByNameModal';
 import useSettings from '@app/hooks/useSettings';
 import { useUser } from '@app/hooks/useUser';
 import globalMessages from '@app/i18n/globalMessages';
-import { ANIME_KEYWORD_ID } from '@server/api/themoviedb/constants';
+import {
+  ANIME_GENRE_ID,
+  ANIME_KEYWORD_ID,
+} from '@server/api/themoviedb/constants';
 import { MediaRequestStatus, MediaStatus } from '@server/constants/media';
 import type { MediaRequest } from '@server/entity/MediaRequest';
 import type SeasonRequest from '@server/entity/SeasonRequest';
@@ -94,9 +97,9 @@ const TvRequestModal = ({
       : null
   );
 
-  const isAnime = data?.keywords.some(
-    (keyword) => keyword.id === ANIME_KEYWORD_ID
-  );
+  const isAnime =
+    data?.keywords?.some((keyword) => keyword.id === ANIME_KEYWORD_ID) ||
+    data?.genres?.some((genre) => genre.id === ANIME_GENRE_ID);
 
   const currentlyRemaining =
     (quota?.tv.remaining ?? 0) -

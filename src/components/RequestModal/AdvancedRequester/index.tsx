@@ -172,29 +172,15 @@ const AdvancedRequester = ({
   useEffect(() => {
     if (serverData) {
       const defaultProfile = serverData.profiles.find(
-        (profile) =>
-          profile.id ===
-          (isAnime && serverData.server.activeAnimeProfileId
-            ? serverData.server.activeAnimeProfileId
-            : serverData.server.activeProfileId)
+        (profile) => profile.id === serverData.server.activeProfileId
       );
       const defaultFolder = serverData.rootFolders.find(
-        (folder) =>
-          folder.path ===
-          (isAnime && serverData.server.activeAnimeDirectory
-            ? serverData.server.activeAnimeDirectory
-            : serverData.server.activeDirectory)
+        (folder) => folder.path === serverData.server.activeDirectory
       );
       const defaultLanguage = serverData.languageProfiles?.find(
-        (language) =>
-          language.id ===
-          (isAnime && serverData.server.activeAnimeLanguageProfileId
-            ? serverData.server.activeAnimeLanguageProfileId
-            : serverData.server.activeLanguageProfileId)
+        (language) => language.id === serverData.server.activeLanguageProfileId
       );
-      const defaultTags = isAnime
-        ? serverData.server.activeAnimeTags
-        : serverData.server.activeTags;
+      const defaultTags = serverData.server.activeTags;
 
       const applyOverrides =
         defaultOverrides &&
@@ -294,9 +280,7 @@ const AdvancedRequester = ({
   if (
     (!data ||
       selectedServer === null ||
-      (data.filter(
-        (server) => server.is4k === is4k && server.isAnime === isAnime
-      ).length < 2 &&
+      (data.filter((server) => server.is4k === is4k).length < 2 &&
         (!serverData ||
           (serverData.profiles.length < 2 &&
             serverData.rootFolders.length < 2 &&
@@ -315,9 +299,7 @@ const AdvancedRequester = ({
       <div className="rounded-md">
         {!!data && selectedServer !== null && (
           <div className="flex flex-col md:flex-row">
-            {data.filter(
-              (server) => server.is4k === is4k && server.isAnime === isAnime
-            ).length > 1 && (
+            {data.filter((server) => server.is4k === is4k).length > 1 && (
               <div className="mb-3 w-full flex-shrink-0 flex-grow last:pr-0 md:w-1/4 md:pr-4">
                 <label htmlFor="server">
                   {intl.formatMessage(messages.destinationserver)}
@@ -331,10 +313,7 @@ const AdvancedRequester = ({
                   className="border-gray-700 bg-gray-800"
                 >
                   {data
-                    .filter(
-                      (server) =>
-                        server.is4k === is4k && server.isAnime === isAnime
-                    )
+                    .filter((server) => server.is4k === is4k)
                     .map((server) => (
                       <option
                         key={`server-list-${server.id}`}
@@ -378,13 +357,7 @@ const AdvancedRequester = ({
                         key={`profile-list${profile.id}`}
                         value={profile.id}
                       >
-                        {isAnime &&
-                        serverData.server.activeAnimeProfileId === profile.id
-                          ? intl.formatMessage(messages.default, {
-                              name: profile.name,
-                            })
-                          : !isAnime &&
-                            serverData.server.activeProfileId === profile.id
+                        {serverData.server.activeProfileId === profile.id
                           ? intl.formatMessage(messages.default, {
                               name: profile.name,
                             })
@@ -422,16 +395,7 @@ const AdvancedRequester = ({
                         key={`folder-list${folder.id}`}
                         value={folder.path}
                       >
-                        {isAnime &&
-                        serverData.server.activeAnimeDirectory === folder.path
-                          ? intl.formatMessage(messages.default, {
-                              name: intl.formatMessage(messages.folder, {
-                                path: folder.path,
-                                space: formatBytes(folder.freeSpace ?? 0),
-                              }),
-                            })
-                          : !isAnime &&
-                            serverData.server.activeDirectory === folder.path
+                        {serverData.server.activeDirectory === folder.path
                           ? intl.formatMessage(messages.default, {
                               name: intl.formatMessage(messages.folder, {
                                 path: folder.path,
@@ -480,15 +444,8 @@ const AdvancedRequester = ({
                           key={`folder-list${language.id}`}
                           value={language.id}
                         >
-                          {isAnime &&
-                          serverData.server.activeAnimeLanguageProfileId ===
-                            language.id
-                            ? intl.formatMessage(messages.default, {
-                                name: language.name,
-                              })
-                            : !isAnime &&
-                              serverData.server.activeLanguageProfileId ===
-                                language.id
+                          {serverData.server.activeLanguageProfileId ===
+                          language.id
                             ? intl.formatMessage(messages.default, {
                                 name: language.name,
                               })
